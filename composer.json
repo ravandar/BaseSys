@@ -1,0 +1,80 @@
+{
+    "name": "alikhaleghi/basesys",
+    "description": "Base System for Khaleghi Projects.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "codeigniter",
+        "khaleghi cms"
+    ],
+    "authors": [
+        {
+            "name": "Ali Khaleghi",
+            "email": "awli.khaleghi@gmail.com",
+            "homepage": "http://ahur.ir",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/alikhaleghi/basesys",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "firebase/php-jwt": "^6.3",
+        "myth/auth": "^1.2",
+        "codeigniter4/settings": "^2.1",
+        "morilog/jalali": "^3"
+    },
+    "require-dev": {
+        "codeigniter4/codeigniter4-standard": "^1.0",
+        "codeigniter4/devkit": "^1.0",
+        "codeigniter4/framework": "^4.1",
+        "myth/auth": "^1.1",
+        "mockery/mockery": "^1.0"
+    },
+    "provide": {
+        "codeigniter4/authentication-implementation": "1.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "AliKhaleghi\\BaseSys\\": "src"
+        },
+        "exclude-from-classmap": [
+            "**/Database/Migrations/**"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Support\\": "tests/_support"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "analyze": [
+            "phpstan analyze",
+            "psalm",
+            "rector process --dry-run"
+        ],
+        "ci": [
+            "Composer\\Config::disableProcessTimeout",
+            "@deduplicate",
+            "@analyze",
+            "@composer normalize --dry-run",
+            "@test",
+            "@inspect",
+            "@style"
+        ],
+        "deduplicate": "phpcpd app/ src/",
+        "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
+        "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
+        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+        "test": "phpunit"
+    },
+    "archive": {
+        "exclude": [".vscode", "*.mm", ".git"]
+    }
+}
